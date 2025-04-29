@@ -33,7 +33,7 @@ var config_default = defineConfig({
       {
         name: "pages",
         label: "Pages",
-        path: "src/pages",
+        path: "src/content/pages",
         match: {
           include: "about"
         },
