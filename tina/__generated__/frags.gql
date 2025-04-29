@@ -1,0 +1,15 @@
+fragment BlogParts on Blog {
+  __typename
+  title
+  description
+  date
+  draft
+  body
+}
+
+fragment PagesParts on Pages {
+  __typename
+  title
+  description
+  body
+}
