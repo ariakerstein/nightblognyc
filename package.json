@@ -30,6 +30,7 @@
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.3.0",
     "@astrojs/vue": "^5.0.10",
+    "@tinacms/app": "^2.2.5",
     "@unocss/reset": "66.1.0-beta.11",
     "astro": "^5.6.2",
     "nprogress": "^0.2.0",
