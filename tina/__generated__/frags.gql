@@ -13,3 +13,12 @@ fragment PagesParts on Pages {
   description
   body
 }
+
+fragment NavParts on Nav {
+  __typename
+  items {
+    __typename
+    title
+    url
+  }
+}

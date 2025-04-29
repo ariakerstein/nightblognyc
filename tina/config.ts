@@ -41,6 +41,27 @@ export default defineConfig({
           { type: 'rich-text', name: 'body', label: 'Body' },
         ],
       },
+      {
+        name: 'nav',
+        label: 'Navigation',
+        path: 'src/content/nav.yaml',
+        format: 'yaml',
+        ui: {
+          allowedActions: { create: false, delete: false },
+        },
+        fields: [
+          {
+            type: 'object',
+            name: 'items',
+            label: 'Navigation Links',
+            list: true,
+            fields: [
+              { type: 'string', name: 'title', label: 'Title' },
+              { type: 'string', name: 'url', label: 'URL' },
+            ],
+          },
+        ],
+      },
     ],
   },
 });

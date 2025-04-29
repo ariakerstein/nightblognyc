@@ -5,7 +5,7 @@ import { useWindowScroll } from '@vueuse/core'
 import { computed, onMounted, ref, unref } from 'vue'
 import ThemeToggle from './ThemeToggle.vue'
 
-const navLinks = siteConfig.header.navLinks || []
+defineProps<{ navLinks: { title: string; url: string }[] }>()
 
 const socialLinks = computed(() => {
   return siteConfig.socialLinks.filter((link: Record<string, any>) => {
@@ -85,10 +85,10 @@ function toggleNavDrawer() {
       </a>
       <nav class="sm:flex hidden flex-wrap gap-x-6 position-initial flex-row">
         <a
-          v-for="link in navLinks" :key="link.text" :aria-label="`${link.text}`" :target="getLinkTarget(link.href)"
-          nav-link :href="link.href"
+          v-for="link in navLinks" :key="link.title" :aria-label="`${link.title}`" :target="getLinkTarget(link.url)"
+          nav-link :href="link.url"
         >
-          {{ link.text }}
+          {{ link.title }}
         </a>
       </nav>
       <div sm:hidden h-full flex items-center @click="toggleNavDrawer()">
@@ -110,10 +110,10 @@ function toggleNavDrawer() {
   >
     <i i-ri-menu-2-fill />
     <a
-      v-for="link in navLinks" :key="link.text" :aria-label="`${link.text}`" :target="getLinkTarget(link.href)"
-      nav-link :href="link.href" @click="toggleNavDrawer()"
+      v-for="link in navLinks" :key="link.title" :aria-label="`${link.title}`" :target="getLinkTarget(link.url || '')"
+      nav-link :href="link.url" @click="toggleNavDrawer()"
     >
-      {{ link.text }}
+      {{ link.title }}
     </a>
   </nav>
   <div class="nav-drawer-mask" @click="toggleNavDrawer()" />

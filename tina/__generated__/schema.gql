@@ -58,11 +58,14 @@ type Query {
   blogConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: BlogFilter): BlogConnection!
   pages(relativePath: String): Pages!
   pagesConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: PagesFilter): PagesConnection!
+  nav(relativePath: String): Nav!
+  navConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: NavFilter): NavConnection!
 }
 
 input DocumentFilter {
   blog: BlogFilter
   pages: PagesFilter
+  nav: NavFilter
 }
 
 type DocumentConnectionEdges {
@@ -88,7 +91,7 @@ type Collection {
   documents(before: String, after: String, first: Float, last: Float, sort: String, filter: DocumentFilter, folder: String): DocumentConnection!
 }
 
-union DocumentNode = Blog | Pages | Folder
+union DocumentNode = Blog | Pages | Nav | Folder
 
 type Blog implements Node & Document {
   title: String
@@ -172,6 +175,38 @@ type PagesConnection implements Connection {
   edges: [PagesConnectionEdges]
 }
 
+type NavItems {
+  title: String
+  url: String
+}
+
+type Nav implements Node & Document {
+  items: [NavItems]
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input NavItemsFilter {
+  title: StringFilter
+  url: StringFilter
+}
+
+input NavFilter {
+  items: NavItemsFilter
+}
+
+type NavConnectionEdges {
+  cursor: String!
+  node: Nav
+}
+
+type NavConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [NavConnectionEdges]
+}
+
 type Mutation {
   addPendingDocument(collection: String!, relativePath: String!, template: String): DocumentNode!
   updateDocument(collection: String, relativePath: String!, params: DocumentUpdateMutation!): DocumentNode!
@@ -182,17 +217,21 @@ type Mutation {
   createBlog(relativePath: String!, params: BlogMutation!): Blog!
   updatePages(relativePath: String!, params: PagesMutation!): Pages!
   createPages(relativePath: String!, params: PagesMutation!): Pages!
+  updateNav(relativePath: String!, params: NavMutation!): Nav!
+  createNav(relativePath: String!, params: NavMutation!): Nav!
 }
 
 input DocumentUpdateMutation {
   blog: BlogMutation
   pages: PagesMutation
+  nav: NavMutation
   relativePath: String
 }
 
 input DocumentMutation {
   blog: BlogMutation
   pages: PagesMutation
+  nav: NavMutation
 }
 
 input BlogMutation {
@@ -207,6 +246,15 @@ input PagesMutation {
   title: String
   description: String
   body: JSON
+}
+
+input NavItemsMutation {
+  title: String
+  url: String
+}
+
+input NavMutation {
+  items: [NavItemsMutation]
 }
 
 schema {

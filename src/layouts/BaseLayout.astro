@@ -5,6 +5,10 @@ import BaseHead from '@/components/BaseHead.astro'
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 import ScrollToTop from '@/components/ScrollToTop.vue'
+import yaml from 'js-yaml';
+import fs from 'fs';
+
+const nav = yaml.load(fs.readFileSync('./src/content/nav.yaml', 'utf8'));
 
 const { ...head } = Astro.props
 ---
@@ -16,7 +20,7 @@ const { ...head } = Astro.props
     <ViewTransitions />
   </head>
   <body class="bg-main text-main min-h-screen font-sans w-full bg-dot">
-    <Header client:load />
+    <Header navLinks={nav} client:load />
     <main
       class="grow max-w-3xl mx-auto sm:pt-36 pt-26 pb-16 px-6 relative"
       transition:animate={fade({ duration: '0.4s' })}

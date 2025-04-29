@@ -86,6 +86,8 @@ export type Query = {
   blogConnection: BlogConnection;
   pages: Pages;
   pagesConnection: PagesConnection;
+  nav: Nav;
+  navConnection: NavConnection;
 };
 
 
@@ -139,9 +141,25 @@ export type QueryPagesConnectionArgs = {
   filter?: InputMaybe<PagesFilter>;
 };
 
+
+export type QueryNavArgs = {
+  relativePath?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryNavConnectionArgs = {
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<NavFilter>;
+};
+
 export type DocumentFilter = {
   blog?: InputMaybe<BlogFilter>;
   pages?: InputMaybe<PagesFilter>;
+  nav?: InputMaybe<NavFilter>;
 };
 
 export type DocumentConnectionEdges = {
@@ -181,7 +199,7 @@ export type CollectionDocumentsArgs = {
   folder?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type DocumentNode = Blog | Pages | Folder;
+export type DocumentNode = Blog | Pages | Nav | Folder;
 
 export type Blog = Node & Document & {
   __typename?: 'Blog';
@@ -271,6 +289,42 @@ export type PagesConnection = Connection & {
   edges?: Maybe<Array<Maybe<PagesConnectionEdges>>>;
 };
 
+export type NavItems = {
+  __typename?: 'NavItems';
+  title?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
+};
+
+export type Nav = Node & Document & {
+  __typename?: 'Nav';
+  items?: Maybe<Array<Maybe<NavItems>>>;
+  id: Scalars['ID']['output'];
+  _sys: SystemInfo;
+  _values: Scalars['JSON']['output'];
+};
+
+export type NavItemsFilter = {
+  title?: InputMaybe<StringFilter>;
+  url?: InputMaybe<StringFilter>;
+};
+
+export type NavFilter = {
+  items?: InputMaybe<NavItemsFilter>;
+};
+
+export type NavConnectionEdges = {
+  __typename?: 'NavConnectionEdges';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<Nav>;
+};
+
+export type NavConnection = Connection & {
+  __typename?: 'NavConnection';
+  pageInfo: PageInfo;
+  totalCount: Scalars['Float']['output'];
+  edges?: Maybe<Array<Maybe<NavConnectionEdges>>>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addPendingDocument: DocumentNode;
@@ -282,6 +336,8 @@ export type Mutation = {
   createBlog: Blog;
   updatePages: Pages;
   createPages: Pages;
+  updateNav: Nav;
+  createNav: Nav;
 };
 
 
@@ -341,15 +397,29 @@ export type MutationCreatePagesArgs = {
   params: PagesMutation;
 };
 
+
+export type MutationUpdateNavArgs = {
+  relativePath: Scalars['String']['input'];
+  params: NavMutation;
+};
+
+
+export type MutationCreateNavArgs = {
+  relativePath: Scalars['String']['input'];
+  params: NavMutation;
+};
+
 export type DocumentUpdateMutation = {
   blog?: InputMaybe<BlogMutation>;
   pages?: InputMaybe<PagesMutation>;
+  nav?: InputMaybe<NavMutation>;
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type DocumentMutation = {
   blog?: InputMaybe<BlogMutation>;
   pages?: InputMaybe<PagesMutation>;
+  nav?: InputMaybe<NavMutation>;
 };
 
 export type BlogMutation = {
@@ -366,9 +436,20 @@ export type PagesMutation = {
   body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
+export type NavItemsMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type NavMutation = {
+  items?: InputMaybe<Array<InputMaybe<NavItemsMutation>>>;
+};
+
 export type BlogPartsFragment = { __typename: 'Blog', title?: string | null, description?: string | null, date?: string | null, draft?: boolean | null, body?: any | null };
 
 export type PagesPartsFragment = { __typename: 'Pages', title?: string | null, description?: string | null, body?: any | null };
+
+export type NavPartsFragment = { __typename: 'Nav', items?: Array<{ __typename: 'NavItems', title?: string | null, url?: string | null } | null> | null };
 
 export type BlogQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -408,6 +489,25 @@ export type PagesConnectionQueryVariables = Exact<{
 
 export type PagesConnectionQuery = { __typename?: 'Query', pagesConnection: { __typename?: 'PagesConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PagesConnectionEdges', cursor: string, node?: { __typename: 'Pages', id: string, title?: string | null, description?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
+export type NavQueryVariables = Exact<{
+  relativePath: Scalars['String']['input'];
+}>;
+
+
+export type NavQuery = { __typename?: 'Query', nav: { __typename: 'Nav', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, items?: Array<{ __typename: 'NavItems', title?: string | null, url?: string | null } | null> | null } };
+
+export type NavConnectionQueryVariables = Exact<{
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<NavFilter>;
+}>;
+
+
+export type NavConnectionQuery = { __typename?: 'Query', navConnection: { __typename?: 'NavConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'NavConnectionEdges', cursor: string, node?: { __typename: 'Nav', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, items?: Array<{ __typename: 'NavItems', title?: string | null, url?: string | null } | null> | null } | null } | null> | null } };
+
 export const BlogPartsFragmentDoc = gql`
     fragment BlogParts on Blog {
   __typename
@@ -424,6 +524,16 @@ export const PagesPartsFragmentDoc = gql`
   title
   description
   body
+}
+    `;
+export const NavPartsFragmentDoc = gql`
+    fragment NavParts on Nav {
+  __typename
+  items {
+    __typename
+    title
+    url
+  }
 }
     `;
 export const BlogDocument = gql`
@@ -540,6 +650,63 @@ export const PagesConnectionDocument = gql`
   }
 }
     ${PagesPartsFragmentDoc}`;
+export const NavDocument = gql`
+    query nav($relativePath: String!) {
+  nav(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...NavParts
+  }
+}
+    ${NavPartsFragmentDoc}`;
+export const NavConnectionDocument = gql`
+    query navConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: NavFilter) {
+  navConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...NavParts
+      }
+    }
+  }
+}
+    ${NavPartsFragmentDoc}`;
 export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R>
   export function getSdk<C>(requester: Requester<C>) {
     return {
@@ -554,6 +721,12 @@ export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) 
       },
     pagesConnection(variables?: PagesConnectionQueryVariables, options?: C): Promise<{data: PagesConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PagesConnectionQueryVariables, query: string}> {
         return requester<{data: PagesConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PagesConnectionQueryVariables, query: string}, PagesConnectionQueryVariables>(PagesConnectionDocument, variables, options);
+      },
+    nav(variables: NavQueryVariables, options?: C): Promise<{data: NavQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: NavQueryVariables, query: string}> {
+        return requester<{data: NavQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: NavQueryVariables, query: string}, NavQueryVariables>(NavDocument, variables, options);
+      },
+    navConnection(variables?: NavConnectionQueryVariables, options?: C): Promise<{data: NavConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: NavConnectionQueryVariables, query: string}> {
+        return requester<{data: NavConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: NavConnectionQueryVariables, query: string}, NavConnectionQueryVariables>(NavConnectionDocument, variables, options);
       }
     };
   }

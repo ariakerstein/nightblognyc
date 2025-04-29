@@ -1,0 +1,9 @@
+---
+import { getEntryBySlug } from 'astro:content';
+const about = await getEntryBySlug('pages', 'about');
+---
+<article>
+  <h1>{about.data.title}</h1>
+  <p>{about.data.description}</p>
+  {about.body ? <div set:html={about.body} /> : null}
+</article>

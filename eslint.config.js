@@ -8,4 +8,15 @@ export default antfu({
     astro: true,
     css: true,
   },
+  ignores: [
+    'tina/__generated__/*',
+    'public/*',
+    '*.pdf',
+    '*.jpg',
+    '*.png',
+    '*.JPG',
+    '*.jpeg',
+    '*.gif',
+    '*.svg',
+  ],
 })
