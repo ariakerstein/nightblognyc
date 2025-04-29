@@ -1,5 +1,9 @@
 ---
-import { TinaAdmin } from '@tinacms/app'
+const isDev = import.meta.env.DEV;
+let TinaAdmin;
+if (isDev) {
+  TinaAdmin = (await import('@tinacms/app')).TinaAdmin;
+}
 ---
 
-<TinaAdmin />
+{isDev ? <TinaAdmin /> : <div style="padding:2rem;text-align:center"><h2>Tina Admin is only available in development.</h2></div>}
