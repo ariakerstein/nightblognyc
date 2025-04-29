@@ -1,9 +1,9 @@
-import { defineConfig } from 'tinacms';
+import { defineConfig } from 'tinacms'
 
 export default defineConfig({
   branch: process.env.GIT_BRANCH || 'main',
-  clientId: '', // Get this from https://app.tina.io if using Tina Cloud
-  token: '',    // Get this from https://app.tina.io if using Tina Cloud
+  clientId: '0ac38b48-f593-4e1e-8a97-4204731fe0a4', // Get this from https://app.tina.io if using Tina Cloud
+  token: '4e9199f247aa485e4ae2fc57785d6a0fbd7b1333', // Get this from https://app.tina.io if using Tina Cloud
   build: {
     outputFolder: 'admin',
     publicFolder: 'public',
@@ -64,4 +64,4 @@ export default defineConfig({
       },
     ],
   },
-});
+})
